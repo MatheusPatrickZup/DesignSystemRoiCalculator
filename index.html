@@ -1,0 +1,50 @@
+<script>
+  function updateRoi() {
+    var result = calculateRoi();
+    document.getElementById("roiResult").innerHTML = result.total;
+    document.getElementById("roiDesvioResult").innerHTML = result.desvio;
+  }
+
+  function calculateRoi() {
+    var roiGlobalComponents = 497460.48;
+    var roiHeader = 69620.8;
+    var roiCard = 47266.72;
+    var hasHeader = document.getElementById("hasHeader").checked;
+    var hasCard = document.getElementById("hasCard").checked;
+    var productQuantity = document.getElementById("productInput").value;
+    var total = roiGlobalComponents * productQuantity;
+
+    if (hasHeader) {
+      total += productQuantity * roiHeader;
+    }
+
+    if (hasCard) {
+      total += productQuantity * roiCard;
+    }
+
+    return {
+      total: formatCurrency(total),
+      desvio: formatCurrency(total * 0.75),
+    };
+  }
+
+  function formatCurrency(number) {
+    return number.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  }
+</script>
+
+<body onload="updateRoi()">
+  <input type="number" id="productInput" value="2" onchange="updateRoi()" />
+  <br /><input type="checkbox" id="hasHeader" onchange="updateRoi()" /><span
+    >incluir header?</span
+  >
+  <br /><input type="checkbox" id="hasCard" onchange="updateRoi()" /><span
+    >incluir card?</span
+  >
+  <br /><span>resultado: </span><span id="roiResult"></span> <br /><span
+    >desvio: </span
+  ><span id="roiDesvioResult"></span>
+</body>
