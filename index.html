@@ -34,10 +34,48 @@
       currency: "BRL",
     });
   }
+
+  function increaseValue() {
+    const currentValue = Number(document.getElementById("productInput").value);
+
+    updateValue(currentValue + 1);
+  }
+
+  function decreaseValue() {
+    const currentValue = Number(document.getElementById("productInput").value);
+
+    if (currentValue < 1) {
+      return;
+    }
+
+    updateValue(currentValue - 1);
+  }
+
+  function sliderUpdate() {
+    const slider = document.getElementById("sliderInput");
+
+    updateValue(slider.value);
+  }
+
+  function updateValue(value) {
+    document.getElementById("productInput").value = value;
+    document.getElementById("sliderInput").value = value;
+    updateRoi();
+  }
 </script>
 
 <body onload="updateRoi()">
-  <input type="number" id="productInput" value="2" onchange="updateRoi()" />
+  <input
+    type="range"
+    min="1"
+    max="100"
+    value="2"
+    id="sliderInput"
+    oninput="sliderUpdate()"
+  />
+  <input type="number" id="productInput" value="2" onchange="updateValue(value)" />
+  <button onclick="increaseValue()">+ 1</button>
+  <button onclick="decreaseValue()">- 1</button>
   <br /><input type="checkbox" id="hasHeader" onchange="updateRoi()" /><span
     >incluir header?</span
   >
